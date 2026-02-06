@@ -16,7 +16,8 @@
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <img class="h-8 w-8" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                        <img class="h-8 w-8"
+                             src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                              alt="Your Company">
                     </div>
                     <div class="hidden md:block">
@@ -34,8 +35,15 @@
                         @guest()
                             <x-nav-link href="/login" :active="request()->is('login')">Log In</x-nav-link>
                             <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
-
                         @endguest
+
+                        @auth()
+                            <form method="POST" action="/logout">
+                                @csrf
+                                <x-form-button>Log Out</x-form-button>
+
+                            </form>
+                        @endauth
 
 
                         <!-- Profile dropdown -->
@@ -106,9 +114,11 @@
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 sm:flex sm:justify-between">
 
             <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ $heading }}</h1>
-            @if(!request()->is('jobs/create') )
-            <x-button href="/jobs/create">Create Job</x-button>
-            @endif
+            @auth()
+                @if(!request()->is('jobs/create') )
+                    <x-button href="/jobs/create">Create Job</x-button>
+                @endif
+            @endauth
         </div>
     </header>
 
